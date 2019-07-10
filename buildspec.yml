@@ -7,6 +7,8 @@ phases:
       - rm -fr ${CODEBUILD_SRC_DIR}/.[0-9a-zA-Z]*; rm -fr ${CODEBUILD_SRC_DIR}/*
       - CODECOMMIT_REPO_NAME=$(aws codepipeline get-pipeline --name ${CODEBUILD_INITIATOR#*/} --query 'pipeline.stages[0].actions[0].configuration.RepositoryName' --output text)
       - CODECOMMIT_URL=$(aws codecommit get-repository --repository-name ${CODECOMMIT_REPO_NAME} --query 'repositoryMetadata.cloneUrlHttp' --output text)
+      - echo $CODECOMMIT_REPO_NAME
+      - echo $CODECOMMIT_URL
       - git init
       - git config --global credential.helper '!aws codecommit credential-helper $@'
       - git config --global credential.UseHttpPath true
