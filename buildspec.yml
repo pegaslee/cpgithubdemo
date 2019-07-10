@@ -9,9 +9,11 @@ phases:
       - cd ${CODEBUILD_SRC_DIR}
       - rm -fr ${CODEBUILD_SRC_DIR}/.[0-9a-zA-Z]*; rm -fr ${CODEBUILD_SRC_DIR}/*
       - echo $CODEBUILD_INITIATOR
-      - GITHUB_REPO_NAME=$(aws codepipeline get-pipeline --name ${CODEBUILD_INITIATOR#*/} --query 'pipeline.stages[0].actions[0].configuration.Repo' --output text)
-      - GITHUB_URL=$(aws codepipeline get-pipeline-state --name ${CODEBUILD_INITIATOR#*/} --query 'stageStates[0].actionStates[0].revisionUrl' --output text)
-      - echo $GITHUB_REPO_NAME
+      - GITHUB_OWNER=$(aws codepipeline get-pipeline --name ${CODEBUILD_INITIATOR#*/} --query 'pipeline.stages[0].actions[0].configuration.Repo' --output text)
+      - GITHUB_REPO=$(aws codepipeline get-pipeline --name ${CODEBUILD_INITIATOR#*/} --query 'pipeline.stages[0].actions[0].configuration.Owner' --output text)
+      - echo $GITHUB_OWNER
+      - echo $GITHUB_REPO
+      - GITHUB_URL="https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}.git"
       - echo $GITHUB_URL
       - git init
       - git config --global credential.helper '!aws codecommit credential-helper $@'
