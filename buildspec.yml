@@ -22,6 +22,7 @@ phases:
       - git fetch origin ${CODEBUILD_RESOLVED_SOURCE_VERSION}
       - git checkout ${CODEBUILD_RESOLVED_SOURCE_VERSION}
       - ls -la
+      - ls .git/
 
 artifacts:
   files:
