@@ -6,21 +6,8 @@ phases:
         python: 3.7
   pre_build:
     commands:
-      - cd ${CODEBUILD_SRC_DIR}
-      - rm -fr ${CODEBUILD_SRC_DIR}/.[0-9a-zA-Z]*; rm -fr ${CODEBUILD_SRC_DIR}/*
-      - GITHUB_REPO=$(aws codepipeline get-pipeline --name ${CODEBUILD_INITIATOR#*/} --query 'pipeline.stages[0].actions[0].configuration.Repo' --output text)
-      - GITHUB_OWNER=$(aws codepipeline get-pipeline --name ${CODEBUILD_INITIATOR#*/} --query 'pipeline.stages[0].actions[0].configuration.Owner' --output text)
-      - GITHUB_URL="https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}.git"
-      - echo $GITHUB_URL
-      - git init
-      #- git config --global credential.helper '!aws codecommit credential-helper $@'
-      - git config --global credential.UseHttpPath true
-      - git remote add origin ${GITHUB_URL}
-      - git fetch origin ${CODEBUILD_RESOLVED_SOURCE_VERSION}
-      - git checkout ${CODEBUILD_RESOLVED_SOURCE_VERSION}
-      - ls -la
-      - ls .git/
+      - echo hi >> hello.txt
 
 artifacts:
   files:
-    - '**/*'
+    - hello.txt
